@@ -36,73 +36,107 @@ Este projeto utiliza tecnologias modernas do ecossistema web:
 
 ## 📂 Estrutura do Projeto
 
-```bash
-.
-├── src/
-│  ├── main.tsx                      # Ponto de entrada da aplicação
-│  ├── vite-env.d.ts                 # Tipos do Vite
-│  ├── app/
-│  │  ├── App.tsx                    # Componente raiz com router
-│  │  ├── routes.ts                  # Definição de rotas (React Router v7+)
-│  │  ├── types.ts                   # Tipos e interfaces da aplicação
-│  │  ├── mockData.ts                # Dados mock para testes
-│  │  ├── components/
-│  │  │  ├── Layout.tsx              # Layout principal com navbar
-│  │  │  ├── Dashboard.tsx           # Dashboard com KPIs e gráficos
-│  │  │  ├── Entregas.tsx            # Gerenciamento de entregas (CRUD)
-│  │  │  ├── Analytics.tsx           # Análise detalhada de dados
-│  │  │  ├── Reportes.tsx            # Geração de relatórios mensais
-│  │  │  ├── Login.tsx               # Tela de autenticação
-│  │  │  └── figma/
-│  │  │     └── ImageWithFallback.tsx # Componente de imagem com fallback
-│  │  ├── context/
-│  │  │  └── DeliveryContext.tsx     # Context API para gerenciamento de entregas
-│  │  └── ui/                        # Componentes shadcn/ui (Radix UI)
-│  │     ├── accordion.tsx
-│  │     ├── alert.tsx
-│  │     ├── badge.tsx
-│  │     ├── button.tsx
-│  │     ├── card.tsx
-│  │     ├── checkbox.tsx
-│  │     ├── dialog.tsx
-│  │     ├── form.tsx
-│  │     ├── input.tsx
-│  │     ├── label.tsx
-│  │     ├── popover.tsx
-│  │     ├── select.tsx
-│  │     ├── sheet.tsx
-│  │     ├── table.tsx
-│  │     ├── tabs.tsx
-│  │     ├── textarea.tsx
-│  │     └── ... (demais componentes UI)
-│  ├── styles/
-│  │  ├── index.css                  # Estilos globais
-│  │  ├── globals.css                # Variáveis CSS globais
-│  │  ├── tailwind.css               # Configuração Tailwind
-│  │  ├── theme.css                  # Tema da aplicação
-│  │  └── fonts.css                  # Importação de fontes
-│  └── index.html                    # HTML base
-├── public/                          # Arquivos estáticos
-├── vite.config.ts                   # Configuração Vite
-├── tsconfig.json                    # Configuração TypeScript
-├── package.json                     # Dependências e scripts
-├── tailwind.config.ts               # Configuração Tailwind CSS
-├── postcss.config.mjs               # Configuração PostCSS
-├── README.md                        # Este arquivo
-└── ESTRUTURA_PASTAS.md              # Documentação de pastas
+📄 **Para a documentação completa e detalhada da estrutura de pastas, consulte [ESTRUTURA_PASTAS.md](./ESTRUTURA_PASTAS.md)**
+
+### Organização Principal
+
+```
+src/
+├── app/
+│  ├── components/          # Componentes principais (Dashboard, Entregas, Analytics, etc)
+│  ├── context/            # Context API para gerenciamento de estado (DeliveryContext)
+│  ├── ui/                 # Componentes reutilizáveis shadcn/ui
+│  ├── App.tsx             # Componente raiz com roteador
+│  ├── routes.ts           # Definição de rotas
+│  ├── types.ts            # Interfaces TypeScript
+│  ├── mockData.ts         # Dados de exemplo
+│  └── translations.ts     # Textos multilíngues (PT, ES)
+├── styles/               # CSS global, Tailwind, tema e fontes
+├── main.tsx             # Ponto de entrada
+└── vite-env.d.ts        # Tipos Vite
 ```
 
-## 🔄 Fluxo da Aplicação
+## 🔄 Como Usar a Aplicação
 
-1. **Autenticação**: Usuário realiza login na tela de autenticação.
-2. **Dashboard**: Após login, é redirecionado para dashboard com KPIs em tempo real.
-3. **Entregas**: Usuário pode criar, visualizar, editar e deletar entregas.
-4. **Analytics**: Visualiza gráficos detalhados de performance (semanal/mensal).
-5. **Relatórios**: Gera relatórios completos do mês com distribuição de ganhos.
-6. **Persistência**: Todos os dados são salvos em localStorage.
-7. **Logout**: Limpa autenticação e retorna à tela de login.
+### 1️⃣ Login
 
-## ✨ Funcionalidades Principais
+- Acesse http://localhost:5173
+- Email: `admin@deliverycontrol.com` | Senha: qualquer coisa (simulado)
+
+### 2️⃣ Dashboard
+
+Visão geral com KPIs em tempo real:
+
+- Total de receita, lotes transportados, despesas e lucro líquido
+- Gráfico de tendência de receita (últimos 7 dias)
+- Distribuição de lucros (40% carro, 30% cada trabalhador)
+
+### 3️⃣ Entregas (CRUD)
+
+- **Criar**: Clique em "Nova Entrega" e preencha o formulário
+- **Visualizar**: Tabela paginada com busca em tempo real
+- **Editar**: Clique no ícone de edição (implementar)
+- **Deletar**: Clique no ícone de lixo com confirmação
+
+### 4️⃣ Analytics
+
+- Filtrar por período (semana/mês)
+- Análise de despesas vs receita
+- Comparação de performance
+
+### 5️⃣ Relatórios
+
+- Gere relatório mensal com distribuição de ganhos
+- Visualize dados em gráfico pizza
+- Exportação em PDF (em desenvolvimento)
+
+### 🌍 Multilíngue
+
+- **Português (PT)** e **Español (ES)**
+- Clique no seletor de idioma no header
+- Idioma persiste em localStorage
+- **Para adicionar novo texto**, edite `src/app/translations.ts`
+
+---
+
+## 🌐 Sistema Multilíngue
+
+DeliveryControl suporta **Português** e **Español** com mudança de idioma em tempo real!
+
+### Como Usar no Código
+
+```typescript
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../translations';
+
+export function MeuComponente() {
+  const { language, setLanguage } = useLanguage();
+  const t = (key: keyof typeof translations.pt) => translations[language][key];
+
+  return (
+    <div>
+      <h1>{t('dashboard')}</h1>
+      <button onClick={() => setLanguage('pt')}>Português</button>
+      <button onClick={() => setLanguage('es')}>Español</button>
+    </div>
+  );
+}
+```
+
+### Adicionar Novo Texto
+
+Edite `src/app/translations.ts`:
+
+```typescript
+export const translations = {
+  pt: { meuTexto: "Meu texto em português", ... },
+  es: { meuTexto: "Mi texto en español", ... },
+};
+```
+
+### Componentes com Suporte Multilíngue
+
+✅ Layout.tsx, Login.tsx, LanguageSelector, App.tsx
 
 ✅ **Autenticação Segura** com persistência em localStorage
 ✅ **Dashboard Responsivo** com KPIs em tempo real
@@ -154,211 +188,89 @@ npm run build      # Compila o projeto para produção (dist/)
 
 ---
 
-## 🏗️ Arquitetura e Padrões
+## 🏗️ Arquitetura
 
-### Componentes Funcionais
+### Padrões Utilizados
 
-Todos os componentes utilizam React Hooks para gerenciamento de estado local e efeitos.
+| Padrão               | Descrição                                                                  |
+| -------------------- | -------------------------------------------------------------------------- |
+| **Context API**      | Gerenciamento de estado global (entregas) com persistência em localStorage |
+| **React Hooks**      | Componentes funcionais com hooks customizados                              |
+| **TypeScript**       | Type safety em toda aplicação                                              |
+| **React Router v7+** | Roteamento com proteção de rotas (guard de autenticação)                   |
+| **shadcn/ui**        | Componentes reutilizáveis baseados em Radix UI + Tailwind                  |
+| **Recharts**         | Visualização de dados interativa                                           |
+| **Motion**           | Animações suaves com Framer Motion                                         |
 
-### Context API para Estado Global
+### Estrutura de Componentes
 
 ```typescript
-// DeliveryContext.tsx
+// Exemplo: useDeliveries() do DeliveryContext
 const { deliveries, addDelivery, deleteDelivery } = useDeliveries();
+
+// Componentes recebem dados do contexto e renderizam de forma reativa
 ```
 
-Centraliza o estado de entregas com hooks customizados para fácil acesso em qualquer componente.
+### Cálculo de Distribuição (por Entrega)
 
-### Type Safety com TypeScript
+- **40%**: Proprietário (carro)
+- **30%**: Trabalhador A
+- **30%**: Trabalhador B
 
-```typescript
-// types.ts
-interface Delivery {
-  id: string;
-  date: string;
-  workers: string[];
-  lots: number;
-  totalValue: number;
-  gasExpense: number;
-  netProfit: number;
-  carShare: number;
-  workerAShare: number;
-  workerBShare: number;
-}
-```
-
-Todas as estruturas de dados são tipadas para evitar erros em tempo de desenvolvimento.
-
-### React Router v7+ com Loader
-
-```typescript
-// routes.ts
-function requireAuth() {
-  if (!localStorage.getItem("dc_auth")) {
-    return redirect("/login");
-  }
-  return null;
-}
-```
-
-Proteção de rotas com guard de autenticação usando loaders do React Router.
-
-### Componentes Reutilizáveis (shadcn/ui)
-
-Biblioteca Radix UI com estilos Tailwind para componentes acessíveis e consistentes:
-
-- Buttons, Inputs, Forms, Tables, Dialogs
-- Totalmente customizáveis com CSS
-
-### Animações e Transições
-
-Utiliza Motion (Framer Motion) para animações suaves:
-
-```typescript
-<motion.div
-  initial={{ opacity: 0, y: 16 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.35 }}
->
-  Conteúdo
-</motion.div>
-```
-
-### Visualização de Dados
-
-Recharts para gráficos responsivos e interativos:
-
-- **Área**: Tendência de valores ao longo do tempo
-- **Barra**: Comparação de métricas
-- **Pizza**: Distribuição de lucros (40% carro, 30% cada trabalhador)
+Formula: `Lucro Líquido = Valor Total - Despesa de Combustível`
 
 ---
 
-## 📊 Dados e Cálculos
+## � Persistência
 
-### Estrutura de Entrega
-
-Cada entrega registra:
-
-- **Data**: Quando a entrega foi realizada
-- **Lotes**: Quantidade de lotes transportados
-- **Valor Total**: Receita bruta
-- **Despesa de Combustível**: Custo de gasolina
-- **Lucro Líquido**: Valor Total - Despesa
-- **Distribuição**:
-  - 40% para o carro (proprietário)
-  - 30% para Trabalhador A
-  - 30% para Trabalhador B
-
-### KPIs no Dashboard
-
-- **Total de Receita**: Soma de todas as entregas do período
-- **Lotes Transportados**: Quantidade total de lotes
-- **Despesa de Combustível**: Total de gastos com combustível
-- **Lucro Líquido**: Receita - Despesa
-
----
-
-## 💾 Persistência de Dados
-
-Todos os dados são armazenados em **localStorage** do navegador:
+Todos os dados são salvos em **localStorage** do navegador:
 
 ```typescript
-// DeliveryContext.tsx
-const saved = localStorage.getItem("dc_deliveries");
-localStorage.setItem("dc_deliveries", JSON.stringify(deliveries));
+// Entregas: salvas em 'dc_deliveries'
+// Autenticação: salva em 'dc_auth'
+// Idioma: salvo em 'dc_language'
 ```
 
-- **Vantagem**: Funciona offline, rápido, sem backend necessário
-- **Limitação**: Dados limitados a ~5-10MB por domínio
-- **Future**: Implementar backend para sincronização em nuvem
+**Vantagens**: Funciona offline, rápido, sem backend necessário  
+**Limitação**: ~5-10MB por domínio  
+**Próxima fase**: Backend Node.js para sincronização em nuvem
 
 ---
 
-## 🎨 Design System
+## 🎨 Design
 
-### Paleta de Cores
-
-- **Primary**: Lime (#a3e635)
-- **Secondary**: Purple (#8b5cf6)
-- **Tertiary**: Cyan (#38bdf8)
-- **Background**: Slate-950 (#0f172a)
-- **Card**: Slate-900 (#0f1729)
-
-### Tipografia
-
-- **Font Family**: Inter (sans-serif)
-- **Headline**: Bold
-- **Body**: Regular
-- **Pequeno**: Small
-
-### Espaçamento
-
-- **Gap**: 16px (padrão)
-- **Padding**: 20-32px
-- **Margin**: 8-24px
+**Tema**: Moderno com Tailwind CSS e Radix UI  
+**Paleta**: Lime (#a3e635), Purple (#8b5cf6), Cyan (#38bdf8), Dark backgrounds  
+**Tipografia**: Inter (sans-serif)  
+**Responsivo**: Mobile-first com suporte total a dispositivos
 
 ---
 
 ## 🔐 Autenticação
 
-Sistema simples de autenticação via localStorage:
-
-1. Usuário insere email/senha na tela de login
-2. Após validação simulada (900ms de delay)
-3. Token é salvo em `localStorage.setItem('dc_auth', 'true')`
-4. Router guard redireciona para dashboard se autenticado
-5. Logout remove o token
+Autenticação simples com persistência em localStorage:
 
 **Credencial de Demo:**
 
 - Email: `admin@deliverycontrol.com`
-- Senha: Qualquer coisa (não validada no frontend)
+- Senha: qualquer coisa (não validada no frontend)
 
----
+⚠️ **Próxima fase**: Implementar autenticação real com JWT e backend
 
-## 📈 Estatísticas e Relatórios
+## 🚀 Próximas Fases
 
-### Dashboard
-
-- KPIs principais com deltas percentuais
-- Gráfico de tendência de receita (últimos 7 dias)
-- Distribuição de lucros por stakeholder
-
-### Analytics
-
-- Gráfico de performance por período (semana/mês)
-- Análise de gastos vs receita
-- Tendências e comparações
-
-### Relatórios
-
-- Filtro por mês
-- Distribuição de ganhos em gráfico pizza
-- Exportação em PDF (implementação futura)
-
----
-
-## 🚀 Próximos Passos / Features Futuras
-
-- [ ] Backend Node.js/Express para persistência em banco de dados
+- [ ] Backend Node.js/Express com banco de dados (PostgreSQL/MongoDB)
 - [ ] Autenticação real com JWT
 - [ ] Exportação de relatórios em PDF
 - [ ] Integração com Google Maps para rastreamento
 - [ ] Dark/Light mode toggle
-- [ ] Multilíngue (PT, EN, ES)
-- [ ] Gráficos mais avançados (heatmaps, comparações)
-- [ ] Integração com sistema de pagamento
-- [ ] Notificações push
+- [ ] Completar traduções (Dashboard, Entregas, Analytics, Reportes)
 - [ ] PWA (Progressive Web App)
+- [ ] API REST documentada com Swagger
 
 ---
 
-## 💻 Sobre o Autor 😄
-
-Engenheiro de Software com foco em desenvolvimento front-end rumo ao full stack. Dedicado a criar experiências digitais inovadoras que impactam o mundo através da tecnologia.
-
-## 🔗 Contato
+## Contato
 
 - [![linkedin](https://img.shields.io/badge/Linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jose-martinez-352032222/)
 - [![gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:juniorjose1925@gmail.com)

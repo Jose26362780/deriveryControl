@@ -29,7 +29,7 @@ deriveryControl/
 │  ├── 📁 app/                       # Aplicação principal
 │  │  │
 │  │  ├── 📄 App.tsx                 # Componente raiz da aplicação
-│  │  │                              # Contém: RouterProvider, DeliveryProvider, Toaster
+│  │  │                              # Contém: RouterProvider, DeliveryProvider, Toaster, LanguageProvider
 │  │  │
 │  │  ├── 📄 routes.ts               # Definição de rotas React Router v7+
 │  │  │                              # Contém: /login, /, /entregas, /analytics, /reportes
@@ -40,9 +40,11 @@ deriveryControl/
 │  │  ├── 📄 mockData.ts             # Dados mock para testes e demo
 │  │  │                              # Array de entregas de exemplo
 │  │  │
+│  │  ├── 📄 translations.ts         # Textos multilíngues (Português, Español)
+│  │  │                              # ✓ Suporte para PT e ES
+│  │  │                              # ✓ Facilita adicionar novos idiomas
+│  │  │
 │  │  ├── 📁 components/             # Componentes principais da aplicação
-│  │  │  │
-│  │  │  ├── 📄 App.tsx              # ❌ DUPLICADO (ver App.tsx na raiz)
 │  │  │  │
 │  │  │  ├── 📄 Layout.tsx           # Layout principal
 │  │  │  │                           # Navbar, sidebar, outlet de rotas
@@ -76,15 +78,25 @@ deriveryControl/
 │  │  │  │                           # ✓ Validação de campos
 │  │  │  │                           # ✓ Persistência de autenticação
 │  │  │  │
+│  │  │  ├── 📄 LanguageSelector.tsx # Seletor de idioma
+│  │  │  │                           # ✓ Toggle PT | ES
+│  │  │  │                           # ✓ Integrado ao header (Layout)
+│  │  │  │                           # ✓ Atualiza idioma em tempo real
+│  │  │  │
 │  │  │  └── 📁 figma/               # Componentes customizados
 │  │  │     └── 📄 ImageWithFallback.tsx  # Componente de imagem com fallback
 │  │  │
 │  │  ├── 📁 context/                # Context API (gerenciamento de estado)
-│  │  │  └── 📄 DeliveryContext.tsx  # Context das entregas
-│  │  │                              # ✓ Estado global de entregas
-│  │  │                              # ✓ Funções: addDelivery, deleteDelivery
-│  │  │                              # ✓ Hook: useDeliveries()
-│  │  │                              # ✓ Persistência em localStorage
+│  │  │  ├── 📄 DeliveryContext.tsx  # Context das entregas
+│  │  │  │                           # ✓ Estado global de entregas
+│  │  │  │                           # ✓ Funções: addDelivery, deleteDelivery
+│  │  │  │                           # ✓ Hook: useDeliveries()
+│  │  │  │                           # ✓ Persistência em localStorage
+│  │  │  │
+│  │  │  └── 📄 LanguageContext.tsx  # Context do idioma
+│  │  │                              # ✓ Gerencia idioma global (PT, ES)
+│  │  │                              # ✓ Hook: useLanguage()
+│  │  │                              # ✓ Persistência em localStorage (dc_language)
 │  │  │
 │  │  └── 📁 ui/                     # Componentes shadcn/ui (Radix UI + Tailwind)
 │  │     │
@@ -160,14 +172,15 @@ Centro da aplicação React. Contém a configuração principal, rotas, tipos e 
 
 **Componentes principais da UI**
 
-| Componente      | Propósito      | Funcionalidades                 |
-| --------------- | -------------- | ------------------------------- |
-| `Layout.tsx`    | Estrutura base | Navbar, Sidebar, Outlet         |
-| `Dashboard.tsx` | Visão geral    | KPIs, Gráficos, Tendências      |
-| `Entregas.tsx`  | Gerenciamento  | CRUD, Tabela, Busca, Filtro     |
-| `Analytics.tsx` | Análise        | Gráficos avançados, Comparações |
-| `Reportes.tsx`  | Relatórios     | Exportação, Distribuição        |
-| `Login.tsx`     | Autenticação   | Formulário, Validação           |
+| Componente             | Propósito      | Funcionalidades                        |
+| ---------------------- | -------------- | -------------------------------------- |
+| `Layout.tsx`           | Estrutura base | Navbar, Sidebar, Outlet                |
+| `Dashboard.tsx`        | Visão geral    | KPIs, Gráficos, Tendências             |
+| `Entregas.tsx`         | Gerenciamento  | CRUD, Tabela, Busca, Filtro            |
+| `Analytics.tsx`        | Análise        | Gráficos avançados, Comparações        |
+| `Reportes.tsx`         | Relatórios     | Exportação, Distribuição               |
+| `Login.tsx`            | Autenticação   | Formulário, Validação                  |
+| `LanguageSelector.tsx` | Seletor idioma | Toggle PT \| ES, Mudança em tempo real |
 
 ### `/src/app/context/`
 
@@ -177,6 +190,20 @@ Centro da aplicação React. Contém a configuração principal, rotas, tipos e 
   - Centraliza dados de entregas
   - Persistência em localStorage
   - Hook customizado `useDeliveries()`
+
+- `LanguageContext.tsx`: Estado compartilhado de idioma
+  - Gerencia idioma global (Português, Español)
+  - Persistência em localStorage (`dc_language`)
+  - Hook customizado `useLanguage()`
+
+### `/src/app/`
+
+**Arquivos raiz da aplicação**
+
+- `translations.ts`: Dicionário multilíngue
+  - Suporte para Português (PT) e Español (ES)
+  - Facilita adicionar novos idiomas
+  - Referenciado em `LanguageContext.tsx` e componentes
 
 ### `/src/app/ui/`
 
